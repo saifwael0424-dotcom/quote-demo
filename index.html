@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>60 Second Quote</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #111827;
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 15px;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .full {
+      grid-column: span 2;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #facc15;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #eab308;
+    }
+
+    @media(max-width: 768px){
+      .grid { grid-template-columns: 1fr; }
+      .full { grid-column: span 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>60 Second Quote</h1>
+
+  <!-- ✅ FORM -->
+  <form id="quoteForm">
+
+    <div class="grid">
+
+      <div>
+        <label>Full Name</label>
+        <input type="text" name="name" required>
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+
+      <div>
+        <label>Phone</label>
+        <input type="tel" name="phone" required>
+      </div>
+
+      <div>
+        <label>Move Type</label>
+        <select name="move_type" required>
+          <option value="">Select one...</option>
+          <option>Unload or Loading only</option>
+          <option>Complete move (Wrapping, Loading, Unloading, Assembling/Disassembling)</option>
+          <option>Furniture transportation</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Move Size</label>
+        <select name="move_size" required>
+          <option value="">Select one...</option>
+          <option>1 or 2 pieces</option>
+          <option>1 Bedroom</option>
+          <option>2 Bedroom</option>
+          <option>3 Bedroom</option>
+          <option>4 Bedroom</option>
+          <option>5+ Bedroom</option>
+          <option>Office</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Stairs (Flights)</label>
+        <input type="number" name="stairs" required>
+      </div>
+
+      <div class="full">
+        <label>Mattresses Details</label>
+        <textarea name="mattresses" required></textarea>
+      </div>
+
+      <div>
+        <label>Own Truck?</label>
+        <select name="truck" required>
+          <option value="">Select one...</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Wrapping Needed?</label>
+        <select name="wrapping" required>
+          <option value="">Select one...</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Heavy Items</label>
+        <select name="heavy_items">
+          <option value="">Select one...</option>
+          <option>Appliances</option>
+          <option>Exercise Equipment</option>
+          <option>Piano</option>
+          <option>Safe</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="full">
+        <label>Furniture Disassembly</label>
+        <textarea name="furniture_help"></textarea>
+      </div>
+
+      <div class="full">
+        <label>Starting Address</label>
+        <textarea name="start_address" required></textarea>
+      </div>
+
+      <div>
+        <label>Move Date</label>
+        <input type="date" name="date" required>
+      </div>
+
+      <div>
+        <label>Ending Address</label>
+        <textarea name="end_address" required></textarea>
+      </div>
+
+      <div>
+        <label>How did you find us?</label>
+        <select name="source" required>
+          <option value="">Select one...</option>
+          <option>Google</option>
+          <option>Social Media</option>
+          <option>Recommendation</option>
+          <option>Flyer</option>
+        </select>
+      </div>
+
+      <div class="full">
+        <label>Extra Info</label>
+        <textarea name="extra"></textarea>
+      </div>
+
+    </div>
+
+    <button type="submit">Send Quote</button>
+
+  </form>
+</div>
+
+<!-- ✅ WEBHOOK SCRIPT -->
+<script>
+document.getElementById("quoteForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const data = {
+    name: this.name.value,
+    email: this.email.value,
+    phone: this.phone.value,
+    move_type: this.move_type.value,
+    move_size: this.move_size.value,
+    stairs: this.stairs.value,
+    mattresses: this.mattresses.value,
+    truck: this.truck.value,
+    wrapping: this.wrapping.value,
+    heavy_items: this.heavy_items.value,
+    furniture_help: this.furniture_help.value,
+    start_address: this.start_address.value,
+    end_address: this.end_address.value,
+    date: this.date.value,
+    source: this.source.value,
+    extra: this.extra.value
+  };
+
+  try {
+    const res = await fetch("https://n8n.srv1058135.hstgr.cloud/webhook-test/quote-demo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (res.ok) {
+      alert("Quote sent successfully!");
+      this.reset();
+    } else {
+      alert("Something went wrong.");
+    }
+
+  } catch (err) {
+    alert("Network error.");
+    console.log(err);
+  }
+});
+</script>
+
+</body>
+</html>
