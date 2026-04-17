@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>60 Second Quote</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Joax live demo</title>
 
   <style>
  :root{
@@ -298,13 +299,8 @@ Fill out the form to see how quickly your quote is delivered to your inbox — i
 
 <!-- ✅ WEBHOOK SCRIPT -->
 <script>
-  console.log("JS loaded");
 document.getElementById("quoteForm").addEventListener("submit", async function(e) {
   e.preventDefault();
-
-  // show loading state
-  const resultBox = document.getElementById("quoteResult");
-  resultBox.innerHTML = "Calculating your quote... ⏳";
 
   const data = {
     name: this.name.value,
@@ -334,48 +330,19 @@ document.getElementById("quoteForm").addEventListener("submit", async function(e
       body: JSON.stringify(data)
     });
 
-    if (!res.ok) {
-      resultBox.innerHTML = "Something went wrong generating your quote.";
-      return;
+    if (res.ok) {
+      alert("Quote sent successfully!");
+      this.reset();
+    } else {
+      alert("Something went wrong.");
     }
 
-    const result = await res.json();
-
-    // DISPLAY RESULT ON PAGE
-    resultBox.innerHTML = `
-      <div style="
-        padding:20px;
-        margin-top:20px;
-        border-radius:12px;
-        background:#F8FAFC;
-        border:1px solid #E2E8F0;
-        text-align:center;
-      ">
-        <h2 style="margin:0; font-size:28px;">Your Instant Quote</h2>
-        <p style="font-size:18px; margin:10px 0;">${result.message || "Here is your estimate"}</p>
-
-        <div style="font-size:40px; font-weight:700; color:#0EA5E9;">
-          $${result.quote || "N/A"}
-        </div>
-
-        ${result.breakdown ? `
-          <div style="margin-top:15px; font-size:14px; color:#475569;">
-            Base: $${result.breakdown.base || 0} <br/>
-            Stairs: $${result.breakdown.stairs || 0} <br/>
-            Wrapping: $${result.breakdown.wrapping || 0} <br/>
-            Heavy Items: $${result.breakdown.heavy_items || 0}
-          </div>
-        ` : ""}
-      </div>
-    `;
-
-    this.reset();
-
   } catch (err) {
+    alert("Network error.");
     console.log(err);
-    resultBox.innerHTML = "Network error. Please try again.";
   }
 });
 </script>
+
 </body>
 </html>
