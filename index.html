@@ -6,82 +6,169 @@
   <title>60 Second Quote</title>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      margin: 0;
-      padding: 40px;
-    }
+ :root{
+  --bg:#F1F5F9;
+  --panel:#FFFFFF;
+  --border:#E2E8F0;
+  --text:#0F172A;
+  --muted:#475569;
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #111827;
-      padding: 30px;
-      border-radius: 12px;
-    }
+  --primary:#0EA5E9;
+  --secondary:#6366F1;
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+  --shadow:0 10px 30px rgba(15,23,42,0.08);
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
+/* GLOBAL */
+body{
+  margin:0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-    label {
-      font-size: 14px;
-      display: block;
-      margin-bottom: 5px;
-    }
+/* PAGE WRAPPER */
+.container{
+  max-width: 1000px;
+  margin: 50px auto;
+  background: var(--panel);
+  padding: 35px;
+  border-radius: 18px;
+  border:1px solid var(--border);
+  box-shadow: var(--shadow);
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 15px;
-    }
+/* TITLE */
+h1{
+  text-align:center;
+  font-size:42px;
+  margin-bottom:5px;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
+h2{
+  text-align:center;
+  font-size:42px;
+  margin-bottom:5px;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    .full {
-      grid-column: span 2;
-    }
+h3{
+  text-align:center;
+  font-size:20px;
+  margin-bottom:5px;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      background: #facc15;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+p{
+  text-align:center;
+  font-size:20px;
+  margin-bottom:35px;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    button:hover {
-      background: #eab308;
-    }
+/* FORM GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
 
-    @media(max-width: 768px){
-      .grid { grid-template-columns: 1fr; }
-      .full { grid-column: span 1; }
-    }
+/* INPUTS */
+label{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+  display:block;
+  font-weight:500;
+}
+
+input, select, textarea{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#F8FAFC;
+  outline:none;
+  transition:0.2s;
+}
+
+input:focus, select:focus, textarea:focus{
+  border-color: var(--primary);
+  box-shadow:0 0 0 3px rgba(14,165,233,0.15);
+}
+
+/* TEXTAREA */
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+/* FULL WIDTH FIELD */
+.full{
+  grid-column: span 2;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:15px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow: var(--shadow);
+  transition:0.25s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  opacity:0.95;
+}
+
+/* SECTION CARDS (optional grouping) */
+.section-box{
+  margin-top:20px;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#FFFFFF;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+  .full{
+    grid-column: span 1;
+  }
+}
   </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h1>60 Second Quote</h1>
+<h2>This is a live demo system</h2>
 
+<h3>
+This demo is based on a real client pricing model and shows how Joax instantly calculates moving quotes using structured logic.
+</h3>
+
+<p>
+Fill out the form to see how quickly your quote is delivered to your inbox — it’s generated in seconds with high accuracy based on your selected variables.</p>
   <!-- ✅ FORM -->
   <form id="quoteForm">
 
@@ -211,8 +298,13 @@
 
 <!-- ✅ WEBHOOK SCRIPT -->
 <script>
+  console.log("JS loaded");
 document.getElementById("quoteForm").addEventListener("submit", async function(e) {
   e.preventDefault();
+
+  // show loading state
+  const resultBox = document.getElementById("quoteResult");
+  resultBox.innerHTML = "Calculating your quote... ⏳";
 
   const data = {
     name: this.name.value,
@@ -242,19 +334,48 @@ document.getElementById("quoteForm").addEventListener("submit", async function(e
       body: JSON.stringify(data)
     });
 
-    if (res.ok) {
-      alert("Quote sent successfully!");
-      this.reset();
-    } else {
-      alert("Something went wrong.");
+    if (!res.ok) {
+      resultBox.innerHTML = "Something went wrong generating your quote.";
+      return;
     }
 
+    const result = await res.json();
+
+    // DISPLAY RESULT ON PAGE
+    resultBox.innerHTML = `
+      <div style="
+        padding:20px;
+        margin-top:20px;
+        border-radius:12px;
+        background:#F8FAFC;
+        border:1px solid #E2E8F0;
+        text-align:center;
+      ">
+        <h2 style="margin:0; font-size:28px;">Your Instant Quote</h2>
+        <p style="font-size:18px; margin:10px 0;">${result.message || "Here is your estimate"}</p>
+
+        <div style="font-size:40px; font-weight:700; color:#0EA5E9;">
+          $${result.quote || "N/A"}
+        </div>
+
+        ${result.breakdown ? `
+          <div style="margin-top:15px; font-size:14px; color:#475569;">
+            Base: $${result.breakdown.base || 0} <br/>
+            Stairs: $${result.breakdown.stairs || 0} <br/>
+            Wrapping: $${result.breakdown.wrapping || 0} <br/>
+            Heavy Items: $${result.breakdown.heavy_items || 0}
+          </div>
+        ` : ""}
+      </div>
+    `;
+
+    this.reset();
+
   } catch (err) {
-    alert("Network error.");
     console.log(err);
+    resultBox.innerHTML = "Network error. Please try again.";
   }
 });
 </script>
-
 </body>
 </html>
