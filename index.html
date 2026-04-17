@@ -360,14 +360,14 @@ document.getElementById("quoteForm").addEventListener("submit", async function(e
 
     /* DISPLAY RESULTS */
 
-    document.getElementById("res_movers").innerText = result.movers;
-    document.getElementById("res_hours").innerText = result.hours;
-    document.getElementById("res_rate").innerText = result.rate;
-    document.getElementById("res_labor").innerText = result.labor;
-    document.getElementById("res_protection").innerText = result.protection;
-    document.getElementById("res_total").innerText = result.total;
+    document.getElementById("movers").innerText = result.movers;
+    document.getElementById("hours").innerText = result.hours;
+    document.getElementById("rate").innerText = result.rate;
+    document.getElementById("labor").innerText = result.labor;
+    document.getElementById("protection").innerText = result.protection;
+    document.getElementById("total").innerText = result.total;
 
-    document.getElementById("quoteResult").style.display = "block";
+    document.getElementById("total").style.display = "block";
 
   } catch(err) {
 
