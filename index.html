@@ -353,6 +353,8 @@ document.getElementById("quoteForm").addEventListener("submit", async function(e
 
     const result = await res.json();
 
+    const r = result[0];
+    
     if (!res.ok) {
       alert("Quote calculation failed");
       return;
@@ -360,14 +362,15 @@ document.getElementById("quoteForm").addEventListener("submit", async function(e
 
     /* DISPLAY RESULTS */
 
-    document.getElementById("movers").innerText = result.movers;
-    document.getElementById("hours").innerText = result.hours;
-    document.getElementById("rate").innerText = result.rate;
-    document.getElementById("labor").innerText = result.labor;
-    document.getElementById("protection").innerText = result.protection;
-    document.getElementById("total").innerText = result.total;
 
-    document.getElementById("total").style.display = "block";
+    document.getElementById("movers").innerText = r.movers;
+    document.getElementById("hours").innerText = r.hours;
+    document.getElementById("rate").innerText = r.rate;
+    document.getElementById("labor").innerText = r.labor;
+    document.getElementById("protection").innerText = r.protection;
+    document.getElementById("total").innerText = r.total;
+
+    document.getElementById("quoteResult").style.display = "block";
 
   } catch(err) {
 
